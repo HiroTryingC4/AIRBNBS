@@ -1,0 +1,71 @@
+╔══════════════════════════════════════════════════════════════╗
+║           MOONPLACE IMAGES FOLDER STRUCTURE                  ║
+╚══════════════════════════════════════════════════════════════╝
+
+📁 public/images/
+│
+├── 📁 hero/                    (1 image minimum)
+│   └── 🖼️  moonplace-hero.jpg   Main banner/hero image
+│
+├── 📁 interior/                (4-8 images)
+│   ├── 🖼️  living-room-1.jpg
+│   ├── 🖼️  living-room-2.jpg
+│   ├── 🖼️  kitchen.jpg
+│   ├── 🖼️  dining-area.jpg
+│   └── 🖼️  workspace.jpg
+│
+├── 📁 bedrooms/                (2-4 images)
+│   ├── 🖼️  master-bedroom-1.jpg
+│   ├── 🖼️  master-bedroom-2.jpg
+│   └── 🖼️  bedroom-detail.jpg
+│
+├── 📁 outdoor/                 (3-5 images)
+│   ├── 🖼️  balcony-view.jpg
+│   ├── 🖼️  balcony-seating.jpg
+│   ├── 🖼️  pool.jpg
+│   └── 🖼️  sunset-view.jpg
+│
+├── 📁 amenities/               (2-4 images)
+│   ├── 🖼️  gym.jpg
+│   ├── 🖼️  pool-area.jpg
+│   └── 🖼️  lobby.jpg
+│
+└── 📁 drone/                   (1-2 images)
+    ├── 🖼️  aerial-view.jpg
+    └── 🖼️  neighborhood.jpg
+
+╔══════════════════════════════════════════════════════════════╗
+║                    QUICK REFERENCE                           ║
+╚══════════════════════════════════════════════════════════════╝
+
+📏 Image Sizes:
+   • Hero: 1920x1080px (landscape)
+   • Gallery: 1200x800px (landscape)
+   • Thumbnails: 800x600px
+
+💾 File Size:
+   • Target: 200-500KB per image
+   • Compress at: tinypng.com
+
+📝 File Naming:
+   • Use lowercase with hyphens
+   • Be descriptive
+   • Example: living-room-sunset.jpg
+
+🔄 How to Use:
+   1. Add photos to folders above
+   2. Update lib/mockData.ts
+   3. Update app/gallery/page.tsx
+   4. Update app/page.tsx (hero)
+   5. Run: npm run build
+   6. Deploy!
+
+📖 Full Instructions:
+   See HOW_TO_ADD_YOUR_IMAGES.md in root folder
+
+✅ Checklist:
+   See IMAGE_CHECKLIST.md for photo shoot planning
+
+═══════════════════════════════════════════════════════════════
+
+Need help? Check the README.md in this folder!

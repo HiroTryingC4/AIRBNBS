@@ -1,0 +1,23 @@
+# Dependencies
+node_modules
+
+# Testing
+tests
+*.test.tsx
+*.test.ts
+jest.config.js
+jest.setup.js
+
+# Specs and documentation
+.kiro
+
+# Environment files
+.env.local
+.env.example
+
+# IDE
+.vscode
+
+# Build cache
+.next
+.swc

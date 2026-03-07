@@ -1,0 +1,41 @@
+# Place your property images here
+
+This folder is for storing your Moonplace property images.
+
+## Folder Structure (Recommended)
+
+```
+public/images/
+├── hero/           # Hero section images
+├── interior/       # Interior photos
+├── bedrooms/       # Bedroom photos
+├── outdoor/        # Outdoor/pool photos
+├── amenities/      # Amenities photos
+├── drone/          # Aerial/drone shots
+└── thumbnails/     # Thumbnail versions (optional)
+```
+
+## Image Guidelines
+
+- **Format**: JPG or PNG (WebP for better performance)
+- **Size**: 
+  - Hero images: 1920x1080px or larger
+  - Gallery images: 1200x800px
+  - Thumbnails: 400x300px
+- **File naming**: Use descriptive names (e.g., `living-room-1.jpg`, `pool-view.jpg`)
+- **Optimization**: Compress images before uploading (use tinypng.com or similar)
+
+## How to Use Your Images
+
+After adding images here, update the image URLs in:
+- `lib/mockData.ts` - Change Unsplash URLs to `/images/your-image.jpg`
+- `app/gallery/page.tsx` - Update gallery image URLs
+
+Example:
+```javascript
+// Before (Unsplash)
+url: 'https://images.unsplash.com/photo-123456'
+
+// After (Local)
+url: '/images/interior/living-room-1.jpg'
+```
