@@ -119,13 +119,7 @@ export default function Home() {
       </div>
 
       {/* Quick Property Overview Section */}
-      <div 
-        id="overview-section"
-        ref={observe}
-        className={`py-8 md:py-12 bg-white border-b transition-all duration-700 ${
-          visibleSections.has('overview-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-      >
+      <div className="py-8 md:py-12 bg-white border-b">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {/* Guest Capacity */}
@@ -165,11 +159,7 @@ export default function Home() {
       </div>
 
       {/* Featured Gallery Section */}
-      <div 
-        id="gallery-section"
-        ref={observe}
-        className="py-8 md:py-12 bg-gray-50"
-      >
+      <div className="py-8 md:py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -217,13 +207,7 @@ export default function Home() {
       </div>
 
       {/* Amenities Highlight Section */}
-      <div 
-        id="amenities-section"
-        ref={observe}
-        className={`py-8 md:py-12 bg-white transition-all duration-700 ${
-          visibleSections.has('amenities-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-      >
+      <div className="py-8 md:py-12 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -251,13 +235,7 @@ export default function Home() {
       </div>
 
       {/* Guest Reviews Preview Section */}
-      <div 
-        id="reviews-section"
-        ref={observe}
-        className={`py-8 md:py-12 bg-gray-50 transition-all duration-700 ${
-          visibleSections.has('reviews-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
-      >
+      <div className="py-8 md:py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
