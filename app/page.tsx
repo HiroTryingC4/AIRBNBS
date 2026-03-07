@@ -122,7 +122,7 @@ export default function Home() {
       <div 
         id="overview-section"
         ref={observe}
-        className={`py-12 md:py-16 bg-white border-b transition-all duration-700 ${
+        className={`py-8 md:py-12 bg-white border-b transition-all duration-700 ${
           visibleSections.has('overview-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
@@ -168,7 +168,7 @@ export default function Home() {
       <div 
         id="gallery-section"
         ref={observe}
-        className="py-12 md:py-16 bg-gray-50"
+        className="py-8 md:py-12 bg-gray-50"
       >
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
@@ -220,7 +220,7 @@ export default function Home() {
       <div 
         id="amenities-section"
         ref={observe}
-        className={`py-12 md:py-16 bg-white transition-all duration-700 ${
+        className={`py-8 md:py-12 bg-white transition-all duration-700 ${
           visibleSections.has('amenities-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
@@ -254,7 +254,7 @@ export default function Home() {
       <div 
         id="reviews-section"
         ref={observe}
-        className={`py-12 md:py-16 bg-gray-50 transition-all duration-700 ${
+        className={`py-8 md:py-12 bg-gray-50 transition-all duration-700 ${
           visibleSections.has('reviews-section') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
       >
@@ -335,7 +335,7 @@ export default function Home() {
       </div>
 
       {/* Availability Preview Section */}
-      <div className="py-12 md:py-16 bg-white">
+      <div className="py-8 md:py-12 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -384,7 +384,7 @@ export default function Home() {
       </div>
 
       {/* Nearby Attractions Preview Section */}
-      <div className="py-12 md:py-16 bg-gray-50">
+      <div className="py-8 md:py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
