@@ -185,7 +185,7 @@ export default function Home() {
             {mockMediaGallery
               .filter(item => item.mediaType === 'IMAGE')
               .slice(0, 8)
-              .map((item, index) => (
+              .map((item) => (
                 <div 
                   key={item.id} 
                   className="relative aspect-square overflow-hidden rounded-lg group cursor-pointer shadow-md hover:shadow-xl transition-all"
