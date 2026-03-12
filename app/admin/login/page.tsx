@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -42,19 +43,27 @@ export default function LoginPage() {
     }
 
     setIsSubmitting(true);
+    setLoginError('');
 
-    // Mock authentication
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const res = await signIn('credentials', {
+        redirect: false,
+        email: formData.email,
+        password: formData.password,
+      });
 
-    // Mock validation - accept any email/password for now
-    if (formData.email && formData.password) {
-      // Redirect to admin dashboard
-      router.push('/admin');
-    } else {
-      setLoginError('Invalid email or password');
+      if (res && !res.error) {
+        router.push('/admin');
+        return;
+      }
+
+      setLoginError(res?.error || 'Invalid email or password');
+    } catch (error) {
+      console.error('Login error:', error);
+      setLoginError('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
-
-    setIsSubmitting(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,12 +77,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Moonplace</h1>
-          <p className="text-primary-100">Admin Portal</p>
+          <h1 className="text-4xl font-bold text-white mb-2">Evangelina's Staycation</h1>
+          <p className="text-brand-100">Admin Portal</p>
         </div>
 
         {/* Login Card */}
@@ -108,7 +117,7 @@ export default function LoginPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent ${
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent ${
                   errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="admin@example.com"
@@ -127,7 +136,7 @@ export default function LoginPage() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent ${
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent ${
                   errors.password ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="••••••••"
@@ -140,11 +149,11 @@ export default function LoginPage() {
               <label className="flex items-center">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-2 focus:ring-primary-600"
+                  className="w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-2 focus:ring-brand-600"
                 />
                 <span className="ml-2 text-sm text-gray-700">Remember me</span>
               </label>
-              <a href="#" className="text-sm text-primary-600 hover:text-primary-700">
+              <a href="#" className="text-sm text-brand-600 hover:text-brand-700">
                 Forgot password?
               </a>
             </div>
@@ -153,7 +162,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors min-h-touch disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-6 py-3 bg-brand-600 text-white rounded-lg font-semibold hover:bg-brand-700 transition-colors min-h-touch disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Signing in...' : 'Sign In'}
             </button>
@@ -163,7 +172,7 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Don't have an account?{' '}
-              <Link href="/admin/register" className="text-primary-600 hover:text-primary-700 font-medium">
+              <Link href="/admin/register" className="text-brand-600 hover:text-brand-700 font-medium">
                 Sign up
               </Link>
             </p>
@@ -172,7 +181,7 @@ export default function LoginPage() {
 
         {/* Back to Home */}
         <div className="text-center mt-6">
-          <Link href="/" className="text-primary-100 hover:text-white transition-colors">
+          <Link href="/" className="text-brand-100 hover:text-white transition-colors">
             ← Back to Home
           </Link>
         </div>

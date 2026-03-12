@@ -96,13 +96,13 @@ export default function PropertyFilter({ onFilterChange, totalProperties, filter
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Filter Properties</h2>
           <p className="text-sm text-gray-600 mt-1">
-            Showing <span className="font-semibold text-primary-600">{filteredCount}</span> of{' '}
+            Showing <span className="font-semibold text-brand-600">{filteredCount}</span> of{' '}
             <span className="font-semibold">{totalProperties}</span> properties
           </p>
         </div>
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="lg:hidden px-4 py-2 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors min-h-touch"
+          className="lg:hidden px-4 py-2 bg-brand-600 text-white rounded-lg font-medium hover:bg-brand-700 transition-colors min-h-touch"
         >
           {isExpanded ? 'Hide Filters' : 'Show Filters'}
         </button>
@@ -119,7 +119,7 @@ export default function PropertyFilter({ onFilterChange, totalProperties, filter
             id="location"
             value={filters.location}
             onChange={(e) => handleFilterChange('location', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent"
           >
             {LOCATIONS.map((location) => (
               <option key={location} value={location}>
@@ -138,7 +138,7 @@ export default function PropertyFilter({ onFilterChange, totalProperties, filter
             id="propertyType"
             value={filters.propertyType}
             onChange={(e) => handleFilterChange('propertyType', e.target.value)}
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent"
           >
             {PROPERTY_TYPES.map((type) => (
               <option key={type} value={type}>
@@ -158,7 +158,7 @@ export default function PropertyFilter({ onFilterChange, totalProperties, filter
                 onClick={() => handleFilterChange('bedCount', count)}
                 className={`px-4 py-2 rounded-lg font-medium transition-all min-h-touch ${
                   filters.bedCount === count
-                    ? 'bg-primary-600 text-white'
+                    ? 'bg-brand-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
@@ -183,7 +183,7 @@ export default function PropertyFilter({ onFilterChange, totalProperties, filter
                   type="checkbox"
                   checked={filters.amenities.includes(amenity)}
                   onChange={() => handleAmenityToggle(amenity)}
-                  className="w-5 h-5 text-primary-600 border-gray-300 rounded focus:ring-2 focus:ring-primary-600"
+                  className="w-5 h-5 text-brand-600 border-gray-300 rounded focus:ring-2 focus:ring-brand-600"
                 />
                 <span className="text-gray-700">{amenity}</span>
               </label>

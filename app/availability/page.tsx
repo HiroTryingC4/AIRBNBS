@@ -1,10 +1,29 @@
 'use client';
 
 import { PublicLayout, AvailabilityCalendar } from '@/components/public';
-import { mockAvailabilityData } from '@/lib/mockData';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+interface Property {
+  id: string;
+  name: string;
+  slug: string;
+  location: string;
+  bedCount: number;
+  bathroomCount: number;
+  guestCapacity: number;
+  pricePerNight: number;
+}
+
+interface AvailabilityData {
+  date: string;
+  status: 'AVAILABLE' | 'BOOKED';
+}
 
 export default function AvailabilityPage() {
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [availabilityData, setAvailabilityData] = useState<AvailabilityData[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedDates, setSelectedDates] = useState<{ start: Date | null; end: Date | null }>({
     start: null,
     end: null,
@@ -18,6 +37,51 @@ export default function AvailabilityPage() {
   });
   const [showForm, setShowForm] = useState(false);
 
+  useEffect(() => {
+    loadProperties();
+  }, []);
+
+  useEffect(() => {
+    if (selectedProperty) {
+      loadAvailability(selectedProperty.id);
+    }
+  }, [selectedProperty]);
+
+  const loadProperties = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/properties');
+      if (response.ok) {
+        const data = await response.json();
+        setProperties(data);
+        if (data.length > 0) {
+          setSelectedProperty(data[0]);
+        }
+      }
+    } catch (error) {
+      console.error('Error loading properties:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadAvailability = async (propertyId: string) => {
+    try {
+      const response = await fetch(`/api/properties/${propertyId}/availability`);
+      if (response.ok) {
+        const data = await response.json();
+        const formattedData = data.map((item: any) => ({
+          date: item.date.split('T')[0],
+          status: item.status === 'BOOKED' ? 'BOOKED' : 'AVAILABLE'
+        }));
+        setAvailabilityData(formattedData);
+      }
+    } catch (error) {
+      console.error('Error loading availability:', error);
+      setAvailabilityData([]);
+    }
+  };
+
   const handleDateSelect = (start: Date | null, end: Date | null) => {
     setSelectedDates({ start, end });
     if (start && end) {
@@ -25,14 +89,56 @@ export default function AvailabilityPage() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Mock form submission
-    alert('Inquiry submitted! We will get back to you soon.');
-    setFormData({ name: '', email: '', phone: '', guests: '1', message: '' });
-    setSelectedDates({ start: null, end: null });
-    setShowForm(false);
+    
+    if (!selectedProperty || !selectedDates.start || !selectedDates.end) {
+      alert('Please select dates first');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          propertyId: selectedProperty.id,
+          guestName: formData.name,
+          guestEmail: formData.email,
+          checkInDate: selectedDates.start.toISOString(),
+          checkOutDate: selectedDates.end.toISOString(),
+          guestCount: parseInt(formData.guests),
+          message: formData.message || `Inquiry for ${selectedProperty.name}`,
+        }),
+      });
+
+      if (response.ok) {
+        alert('Inquiry submitted! We will get back to you soon.');
+        setFormData({ name: '', email: '', phone: '', guests: '1', message: '' });
+        setSelectedDates({ start: null, end: null });
+        setShowForm(false);
+      } else {
+        alert('Failed to submit inquiry. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting inquiry:', error);
+      alert('Failed to submit inquiry. Please try again.');
+    }
   };
+
+  if (loading) {
+    return (
+      <PublicLayout>
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex justify-center items-center min-h-[400px]">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-600"></div>
+          </div>
+        </div>
+      </PublicLayout>
+    );
+  }
 
   return (
     <PublicLayout>
@@ -43,9 +149,56 @@ export default function AvailabilityPage() {
             Check Availability
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Select your check-in and check-out dates to see availability
+            Select a property and your check-in and check-out dates to see availability
           </p>
         </div>
+
+        {/* Property Selector */}
+        {properties.length > 0 && (
+          <div className="max-w-6xl mx-auto mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Select Property</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {properties.map((property) => (
+                <button
+                  key={property.id}
+                  onClick={() => {
+                    setSelectedProperty(property);
+                    setSelectedDates({ start: null, end: null });
+                    setShowForm(false);
+                  }}
+                  className={`text-left p-6 rounded-lg border-2 transition-all ${
+                    selectedProperty?.id === property.id
+                      ? 'border-brand-600 bg-brand-50 shadow-lg'
+                      : 'border-gray-200 hover:border-brand-300 hover:shadow-md'
+                  }`}
+                >
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    {property.name}
+                  </h3>
+                  <p className="text-sm text-gray-600 mb-3">{property.location}</p>
+                  <div className="flex items-center gap-4 text-sm text-gray-700 mb-3">
+                    <span>🛏️ {property.bedCount} bed{property.bedCount !== 1 ? 's' : ''}</span>
+                    <span>🚿 {property.bathroomCount} bath</span>
+                    <span>👥 {property.guestCapacity} guests</span>
+                  </div>
+                  <p className="text-lg font-bold text-brand-600">
+                    ₱{property.pricePerNight.toLocaleString()} / night
+                  </p>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Selected Property Info */}
+        {selectedProperty && (
+          <div className="max-w-6xl mx-auto mb-8 bg-brand-50 border-2 border-brand-600 rounded-lg p-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">
+              Viewing availability for: {selectedProperty.name}
+            </h3>
+            <p className="text-gray-700">{selectedProperty.location}</p>
+          </div>
+        )}
 
         {/* Legend */}
         <div className="flex flex-wrap justify-center gap-6 mb-8 text-sm">
@@ -62,25 +215,27 @@ export default function AvailabilityPage() {
             <span className="text-gray-700">Past Date</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-primary-500 rounded"></div>
+            <div className="w-4 h-4 bg-brand-500 rounded"></div>
             <span className="text-gray-700">Selected</span>
           </div>
         </div>
 
-        {/* Calendar Grid - Show 12 months */}
-        <div className="max-w-6xl mx-auto mb-12">
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <AvailabilityCalendar
-              propertyId="1"
-              availabilityData={mockAvailabilityData}
-              onDateRangeSelect={handleDateSelect}
-            />
+        {/* Calendar */}
+        {selectedProperty && (
+          <div className="max-w-6xl mx-auto mb-12">
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <AvailabilityCalendar
+                propertyId={selectedProperty.id}
+                availabilityData={availabilityData}
+                onDateRangeSelect={handleDateSelect}
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Selected Dates Display */}
         {selectedDates.start && selectedDates.end && (
-          <div className="max-w-2xl mx-auto mb-8 bg-primary-50 border-2 border-primary-600 rounded-lg p-6">
+          <div className="max-w-2xl mx-auto mb-8 bg-brand-50 border-2 border-brand-600 rounded-lg p-6">
             <h3 className="text-xl font-semibold text-gray-900 mb-4">Selected Dates</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -106,23 +261,31 @@ export default function AvailabilityPage() {
                 </p>
               </div>
             </div>
-            <div className="mt-4 pt-4 border-t border-primary-200">
+            <div className="mt-4 pt-4 border-t border-brand-200">
               <p className="text-sm text-gray-600">
                 Total nights:{' '}
                 <span className="font-semibold text-gray-900">
                   {Math.ceil((selectedDates.end.getTime() - selectedDates.start.getTime()) / (1000 * 60 * 60 * 24))}
                 </span>
               </p>
+              {selectedProperty && (
+                <p className="text-sm text-gray-600 mt-2">
+                  Estimated total:{' '}
+                  <span className="font-semibold text-brand-600 text-lg">
+                    ₱{(selectedProperty.pricePerNight * Math.ceil((selectedDates.end.getTime() - selectedDates.start.getTime()) / (1000 * 60 * 60 * 24))).toLocaleString()}
+                  </span>
+                </p>
+              )}
             </div>
           </div>
         )}
 
         {/* Inquiry Form */}
-        {showForm && (
+        {showForm && selectedProperty && (
           <div className="max-w-2xl mx-auto mb-12">
             <div className="bg-white rounded-lg shadow-lg p-6 md:p-8">
               <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-                Send Inquiry
+                Send Inquiry for {selectedProperty.name}
               </h2>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -135,7 +298,7 @@ export default function AvailabilityPage() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent"
                     placeholder="John Doe"
                   />
                 </div>
@@ -150,7 +313,7 @@ export default function AvailabilityPage() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -164,7 +327,7 @@ export default function AvailabilityPage() {
                     id="phone"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent"
                     placeholder="+63 912 345 6789"
                   />
                 </div>
@@ -178,7 +341,7 @@ export default function AvailabilityPage() {
                     required
                     value={formData.guests}
                     onChange={(e) => setFormData({ ...formData, guests: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent"
                   >
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((num) => (
                       <option key={num} value={num}>
@@ -197,14 +360,14 @@ export default function AvailabilityPage() {
                     rows={4}
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent"
                     placeholder="Any special requests or questions?"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full px-8 py-4 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors min-h-touch"
+                  className="w-full px-8 py-4 bg-brand-600 text-white rounded-lg font-semibold hover:bg-brand-700 transition-colors min-h-touch"
                 >
                   Send Inquiry
                 </button>
@@ -233,9 +396,17 @@ export default function AvailabilityPage() {
               </a>
               <a
                 href="/contact"
-                className="px-8 py-3 bg-white text-primary-600 border-2 border-primary-600 rounded-lg font-semibold hover:bg-primary-50 transition-colors min-h-touch flex items-center justify-center"
+                className="px-8 py-3 bg-white text-brand-600 border-2 border-brand-600 rounded-lg font-semibold hover:bg-brand-50 transition-colors min-h-touch flex items-center justify-center"
               >
                 Contact Host
+              </a>
+              <a
+                href={`https://wa.me/639760016381?text=Hi! I'm interested in ${selectedProperty?.name || 'your property'}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors min-h-touch flex items-center justify-center"
+              >
+                WhatsApp Us
               </a>
             </div>
           </div>

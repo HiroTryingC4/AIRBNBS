@@ -45,15 +45,26 @@ export default function ContactPage() {
 
     setIsSubmitting(true);
 
-    // Mock form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
 
-    setIsSubmitting(false);
-    setSubmitSuccess(true);
-    setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-
-    // Hide success message after 5 seconds
-    setTimeout(() => setSubmitSuccess(false), 5000);
+      if (response.ok) {
+        setSubmitSuccess(true);
+        setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
+        setTimeout(() => setSubmitSuccess(false), 5000);
+      } else {
+        alert('Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -71,10 +82,10 @@ export default function ContactPage() {
         {/* Page Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Get in Touch
+            Contact Evangelina's Staycation
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+            Ready to book your stay at Urban Deca Towers Cubao? Get in touch with James for instant booking and inquiries.
           </p>
         </div>
 
@@ -118,7 +129,7 @@ export default function ContactPage() {
                       name="name"
                       value={formData.name}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent ${
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent ${
                         errors.name ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="John Doe"
@@ -137,7 +148,7 @@ export default function ContactPage() {
                       name="email"
                       value={formData.email}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent ${
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent ${
                         errors.email ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="john@example.com"
@@ -156,7 +167,7 @@ export default function ContactPage() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent"
                       placeholder="+63 912 345 6789"
                     />
                   </div>
@@ -171,7 +182,7 @@ export default function ContactPage() {
                       name="subject"
                       value={formData.subject}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent"
                     >
                       <option value="">Select a subject</option>
                       <option value="booking">Booking Inquiry</option>
@@ -193,7 +204,7 @@ export default function ContactPage() {
                       rows={6}
                       value={formData.message}
                       onChange={handleChange}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent ${
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent ${
                         errors.message ? 'border-red-500' : 'border-gray-300'
                       }`}
                       placeholder="Tell us about your inquiry..."
@@ -205,7 +216,7 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full px-8 py-4 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors min-h-touch disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full px-8 py-4 bg-brand-600 text-white rounded-lg font-semibold hover:bg-brand-700 transition-colors min-h-touch disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? 'Sending...' : 'Send Message'}
                   </button>
@@ -218,12 +229,28 @@ export default function ContactPage() {
               {/* Alternative Contact Methods */}
               <div className="bg-white rounded-lg shadow-lg p-6">
                 <h3 className="text-xl font-bold text-gray-900 mb-4">
-                  Other Ways to Reach Us
+                  Book Your Stay
                 </h3>
                 <div className="space-y-4">
+                  {/* Direct Call */}
+                  <a
+                    href="tel:09760016381"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
+                  >
+                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center group-hover:bg-green-200 transition-colors">
+                      <svg className="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Call James</p>
+                      <p className="text-sm text-gray-600">09760016381</p>
+                    </div>
+                  </a>
+
                   {/* WhatsApp */}
                   <a
-                    href="https://wa.me/1234567890"
+                    href="https://wa.me/639760016381"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
@@ -234,8 +261,8 @@ export default function ContactPage() {
                       </svg>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900">WhatsApp</p>
-                      <p className="text-sm text-gray-600">Chat with us instantly</p>
+                      <p className="font-semibold text-gray-900">WhatsApp James</p>
+                      <p className="text-sm text-gray-600">Message instantly</p>
                     </div>
                   </a>
 
@@ -262,8 +289,8 @@ export default function ContactPage() {
                     href="tel:+1234567890"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
                   >
-                    <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center group-hover:bg-primary-200 transition-colors">
-                      <svg className="w-6 h-6 text-primary-600" fill="currentColor" viewBox="0 0 20 20">
+                    <div className="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors">
+                      <svg className="w-6 h-6 text-brand-600" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                       </svg>
                     </div>
@@ -293,9 +320,9 @@ export default function ContactPage() {
               </div>
 
               {/* Response Time */}
-              <div className="bg-primary-50 rounded-lg p-6">
+              <div className="bg-brand-50 rounded-lg p-6">
                 <div className="flex items-start gap-3">
-                  <svg className="w-6 h-6 text-primary-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                  <svg className="w-6 h-6 text-brand-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
                   </svg>
                   <div>

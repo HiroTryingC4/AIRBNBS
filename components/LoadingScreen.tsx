@@ -17,12 +17,12 @@ export default function LoadingScreen() {
   if (!isLoading) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center transition-opacity duration-500">
+    <div className="fixed inset-0 z-[9999] bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center transition-opacity duration-500">
       <div className="text-center">
         {/* Animated Logo/Brand */}
         <div className="mb-8 animate-pulse">
-          <h1 className="text-6xl font-bold text-white mb-2">Moonplace</h1>
-          <p className="text-primary-100 text-lg">Trees Residences, Quezon City</p>
+          <h1 className="text-6xl font-bold text-white mb-2">Evangelina's Staycation</h1>
+          <p className="text-brand-100 text-lg">Urban Deca Towers Cubao, Quezon City</p>
         </div>
 
         {/* Spinner Animation */}

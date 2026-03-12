@@ -103,7 +103,7 @@ export default function ReviewsPage() {
               {/* Left: Overall Score */}
               <div className="text-center md:text-left">
                 <div className="flex items-center justify-center md:justify-start gap-4 mb-4">
-                  <div className="text-6xl font-bold text-primary-600">
+                  <div className="text-6xl font-bold text-brand-600">
                     {averageRating.toFixed(1)}
                   </div>
                   <div>
@@ -165,7 +165,7 @@ export default function ReviewsPage() {
               id="sort"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as 'newest' | 'highest')}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent"
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent"
             >
               <option value="newest">Newest First</option>
               <option value="highest">Highest Rated</option>
@@ -181,8 +181,8 @@ export default function ReviewsPage() {
                 <div className="flex items-start gap-4">
                   {/* Avatar */}
                   <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-primary-100 rounded-full flex items-center justify-center">
-                      <span className="text-primary-600 font-semibold text-lg">
+                    <div className="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center">
+                      <span className="text-brand-600 font-semibold text-lg">
                         {review.guestName.charAt(0)}
                       </span>
                     </div>
@@ -244,7 +244,7 @@ export default function ReviewsPage() {
         </div>
 
         {/* Call to Action */}
-        <div className="max-w-4xl mx-auto bg-primary-50 rounded-lg p-8 text-center">
+        <div className="max-w-4xl mx-auto bg-brand-50 rounded-lg p-8 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             Experience It Yourself
           </h2>
@@ -254,13 +254,13 @@ export default function ReviewsPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/availability"
-              className="px-8 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors min-h-touch flex items-center justify-center"
+              className="px-8 py-3 bg-brand-600 text-white rounded-lg font-medium hover:bg-brand-700 transition-colors min-h-touch flex items-center justify-center"
             >
               Check Availability
             </a>
             <a
               href="/contact"
-              className="px-8 py-3 bg-white text-primary-600 border-2 border-primary-600 rounded-lg font-medium hover:bg-primary-50 transition-colors min-h-touch flex items-center justify-center"
+              className="px-8 py-3 bg-white text-brand-600 border-2 border-brand-600 rounded-lg font-medium hover:bg-brand-50 transition-colors min-h-touch flex items-center justify-center"
             >
               Contact Us
             </a>

@@ -8,9 +8,9 @@ import { useState, useEffect, useRef } from 'react';
 const galleryData = {
   Interior: [
     { id: '1', url: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop', alt: 'Living room' },
-    { id: '2', url: 'https://images.unsplash.com/photo-1600607687644-c7171b42498b?w=800&h=600&fit=crop', alt: 'Dining area' },
+    { id: '2', url: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&h=600&fit=crop', alt: 'Dining area' },
     { id: '3', url: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&h=600&fit=crop', alt: 'Kitchen' },
-    { id: '4', url: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&h=600&fit=crop', alt: 'Lounge' },
+    { id: '4', url: 'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&h=600&fit=crop', alt: 'Lounge' },
     { id: '5', url: 'https://images.unsplash.com/photo-1556912167-f556f1f39faa?w=800&h=600&fit=crop', alt: 'Modern living space' },
     { id: '6', url: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&h=600&fit=crop', alt: 'Cozy corner' },
     { id: '7', url: 'https://images.unsplash.com/photo-1556912173-46c336c7fd55?w=800&h=600&fit=crop', alt: 'Open concept' },
@@ -129,8 +129,8 @@ export default function GalleryPage() {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-6 py-3 rounded-lg font-medium transition-all min-h-touch ${
                   selectedCategory === category
-                    ? 'bg-primary-600 text-white shadow-lg'
-                    : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-primary-600 hover:text-primary-600'
+                    ? 'bg-brand-600 text-white shadow-lg'
+                    : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-brand-600 hover:text-brand-600'
                 }`}
               >
                 {category}
@@ -142,7 +142,7 @@ export default function GalleryPage() {
         {/* Image Count */}
         <div className="text-center mb-6 opacity-0 animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
           <p className="text-gray-600">
-            Showing <span className="font-semibold text-primary-600">{filteredImages.length}</span> photos
+            Showing <span className="font-semibold text-brand-600">{filteredImages.length}</span> photos
             {selectedCategory !== 'All' && ` in ${selectedCategory}`}
           </p>
         </div>
@@ -230,13 +230,13 @@ export default function GalleryPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/availability"
-              className="px-8 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors min-h-touch flex items-center justify-center"
+              className="px-8 py-3 bg-brand-600 text-white rounded-lg font-medium hover:bg-brand-700 transition-colors min-h-touch flex items-center justify-center"
             >
               Check Availability
             </a>
             <a
               href="/contact"
-              className="px-8 py-3 bg-white text-primary-600 border-2 border-primary-600 rounded-lg font-medium hover:bg-primary-50 transition-colors min-h-touch flex items-center justify-center"
+              className="px-8 py-3 bg-white text-brand-600 border-2 border-brand-600 rounded-lg font-medium hover:bg-brand-50 transition-colors min-h-touch flex items-center justify-center"
             >
               Contact Us
             </a>

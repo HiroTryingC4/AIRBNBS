@@ -18,6 +18,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { href: '/admin/calendar', label: 'Calendar Management', icon: '📅' },
     { href: '/admin/gallery', label: 'Gallery Manager', icon: '🖼️' },
     { href: '/admin/inquiries', label: 'Inquiry Manager', icon: '💬' },
+    { href: '/admin/chatbot', label: 'Chatbot Management', icon: '🤖' },
     { href: '/admin/content', label: 'Content Editor', icon: '✏️' },
     { href: '/admin/settings', label: 'Account Settings', icon: '⚙️' },
   ];
@@ -53,7 +54,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         <div className="flex flex-col h-full">
           {/* Sidebar Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
-            <Link href="/admin" className="text-xl font-bold text-primary-600">
+            <Link href="/admin" className="text-xl font-bold text-brand-600">
               Admin Panel
             </Link>
             <button
@@ -77,8 +78,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                     onClick={() => setIsSidebarOpen(false)}
                     className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors min-h-touch ${
                       isActive(link.href)
-                        ? 'bg-primary-50 text-primary-600 font-medium'
-                        : 'text-gray-700 hover:bg-gray-50 hover:text-primary-600'
+                        ? 'bg-brand-50 text-brand-600 font-medium'
+                        : 'text-gray-700 hover:bg-gray-50 hover:text-brand-600'
                     }`}
                   >
                     <span className="text-xl">{link.icon}</span>
@@ -110,7 +111,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="md:hidden min-w-touch min-h-touch flex items-center justify-center text-gray-700 hover:text-primary-600 transition-colors"
+              className="md:hidden min-w-touch min-h-touch flex items-center justify-center text-gray-700 hover:text-brand-600 transition-colors"
               aria-label="Open sidebar"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -130,7 +131,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 href="/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hidden sm:flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary-600 transition-colors min-h-touch"
+                className="hidden sm:flex items-center space-x-2 px-4 py-2 text-sm font-medium text-gray-700 hover:text-brand-600 transition-colors min-h-touch"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -140,7 +141,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
               {/* User Avatar/Menu */}
               <div className="flex items-center space-x-2">
-                <div className="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-semibold">
+                <div className="w-10 h-10 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 font-semibold">
                   A
                 </div>
               </div>

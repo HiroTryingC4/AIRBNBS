@@ -2,10 +2,11 @@
 
 import { PublicLayout, PropertyCard } from '@/components/public';
 import PropertyFilter, { FilterState } from '@/components/public/PropertyFilter';
-import { mockProperties } from '@/lib/mockData';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function PropertiesPage() {
+  const [properties, setProperties] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState<FilterState>({
     location: 'All Locations',
     propertyType: 'All Types',
@@ -13,33 +14,60 @@ export default function PropertiesPage() {
     amenities: [],
   });
 
-  // Filter properties based on current filters
-  const filteredProperties = mockProperties.filter((property) => {
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const response = await fetch('/api/properties');
+        if (response.ok) {
+          const data = await response.json();
+          setProperties(data);
+        } else {
+          console.error('Failed to fetch properties');
+          setProperties([]);
+        }
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+        setProperties([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, []);
+
+  // Filter properties based on current filters with safety checks
+  const filteredProperties = (properties && Array.isArray(properties) ? properties : []).filter((property) => {
+    // Safety check for property object
+    if (!property) return false;
+
     // Location filter
     if (filters.location !== 'All Locations') {
-      if (!property.location.includes(filters.location)) {
+      if (!property.location || !property.location.includes(filters.location)) {
         return false;
       }
     }
 
-    // Property type filter (basic implementation - would need property type field in real data)
+    // Property type filter
     if (filters.propertyType !== 'All Types') {
-      // For now, just check if property name contains the type
-      if (!property.name.toLowerCase().includes(filters.propertyType.toLowerCase())) {
+      if (!property.propertyType || property.propertyType !== filters.propertyType) {
         return false;
       }
     }
 
     // Bed count filter
     if (filters.bedCount !== 'Any') {
-      const minBeds = parseInt(filters.bedCount.replace('+', ''));
-      if (property.bedCount < minBeds) {
+      const bedCount = parseInt(filters.bedCount);
+      if (!property.bedCount || property.bedCount !== bedCount) {
         return false;
       }
     }
 
     // Amenities filter
     if (filters.amenities.length > 0) {
+      if (!property.amenities || !Array.isArray(property.amenities)) {
+        return false;
+      }
       const hasAllAmenities = filters.amenities.every((amenity) =>
         property.amenities.includes(amenity)
       );
@@ -55,62 +83,48 @@ export default function PropertiesPage() {
     <PublicLayout>
       <div className="container mx-auto px-4 py-8">
         {/* Page Header */}
-        <div className="text-center mb-10">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Browse Properties
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Our Properties
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Find your perfect vacation rental from our collection of stunning properties
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Discover our collection of premium accommodations, each carefully selected to provide you with an exceptional stay experience.
           </p>
         </div>
 
-        {/* Filter Component */}
-        <PropertyFilter
+        {/* Property Filter */}
+        <PropertyFilter 
           onFilterChange={setFilters}
-          totalProperties={mockProperties.length}
+          totalProperties={properties.length}
           filteredCount={filteredProperties.length}
         />
 
-        {/* Properties Grid */}
-        {filteredProperties.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {filteredProperties.map((property) => (
-              <PropertyCard key={property.id} property={property} />
-            ))}
+        {/* Loading State */}
+        {loading ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-600"></div>
           </div>
         ) : (
-          <div className="text-center py-16 bg-gray-50 rounded-lg">
-            <svg
-              className="w-20 h-20 mx-auto text-gray-400 mb-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-              />
-            </svg>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">No properties found</h3>
-            <p className="text-gray-600 mb-6">
-              Try adjusting your filters to see more results
-            </p>
-            <button
-              onClick={() =>
-                setFilters({
-                  location: 'All Locations',
-                  propertyType: 'All Types',
-                  bedCount: 'Any',
-                  amenities: [],
-                })
-              }
-              className="px-6 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors min-h-touch"
-            >
-              Clear Filters
-            </button>
-          </div>
+          <>
+            {/* Properties Grid */}
+            {filteredProperties.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {filteredProperties.map((property) => (
+                  <PropertyCard key={property.id} property={property} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-6xl mb-4">🏠</div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">No Properties Found</h3>
+                <p className="text-gray-600">
+                  {properties.length === 0 
+                    ? "No properties are currently available." 
+                    : "Try adjusting your filters to see more properties."}
+                </p>
+              </div>
+            )}
+          </>
         )}
       </div>
     </PublicLayout>

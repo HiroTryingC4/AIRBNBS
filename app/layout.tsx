@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import LoadingScreen from "@/components/LoadingScreen";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -15,8 +14,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Moonplace - Cozy Studio at Trees Residences",
-  description: "Book your stay at Moonplace, a modern studio unit in Trees Residences, Quezon City. Perfect for couples and solo travelers.",
+  title: "Evangelina's Staycation - Urban Deca Towers Cubao | 4 Cozy Airbnb Units",
+  description: "Welcome to Evangelina's Staycation at Urban Deca Towers Cubao! 4 cozy Airbnb units perfect for your city getaway. Contact James at 09760016381 to book your stay in the heart of Cubao.",
 };
 
 export default function RootLayout({
@@ -29,7 +28,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <LoadingScreen />
         {children}
       </body>
     </html>

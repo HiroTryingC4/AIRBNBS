@@ -135,7 +135,7 @@ export default function AttractionsPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                 {category}
               </h2>
-              <div className="w-20 h-1 bg-primary-600 rounded"></div>
+              <div className="w-20 h-1 bg-brand-600 rounded"></div>
             </div>
 
             {/* Attractions Grid */}
@@ -166,7 +166,7 @@ export default function AttractionsPage() {
 
                     {/* Distance Info */}
                     <div className="flex items-center gap-4 text-sm">
-                      <div className="flex items-center gap-1 text-primary-600 font-medium">
+                      <div className="flex items-center gap-1 text-brand-600 font-medium">
                         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                           <path
                             fillRule="evenodd"
@@ -195,7 +195,7 @@ export default function AttractionsPage() {
         ))}
 
         {/* Call to Action */}
-        <div className="mt-16 bg-primary-50 rounded-lg p-8 text-center">
+        <div className="mt-16 bg-brand-50 rounded-lg p-8 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
             Plan Your Perfect Getaway
           </h2>
@@ -205,13 +205,13 @@ export default function AttractionsPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="/availability"
-              className="px-8 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors min-h-touch flex items-center justify-center"
+              className="px-8 py-3 bg-brand-600 text-white rounded-lg font-medium hover:bg-brand-700 transition-colors min-h-touch flex items-center justify-center"
             >
               Check Availability
             </a>
             <a
               href="/contact"
-              className="px-8 py-3 bg-white text-primary-600 border-2 border-primary-600 rounded-lg font-medium hover:bg-primary-50 transition-colors min-h-touch flex items-center justify-center"
+              className="px-8 py-3 bg-white text-brand-600 border-2 border-brand-600 rounded-lg font-medium hover:bg-brand-50 transition-colors min-h-touch flex items-center justify-center"
             >
               Contact Us
             </a>

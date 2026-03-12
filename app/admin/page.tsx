@@ -1,40 +1,41 @@
-import { AdminLayout } from '@/components/admin';
-import { mockProperties } from '@/lib/mockData';
-import Link from 'next/link';
+'use client';
 
-// Mock inquiries data
-const mockInquiries = [
-  {
-    id: '1',
-    guestName: 'Maria Santos',
-    email: 'maria@example.com',
-    propertyName: 'Beachfront Villa Paradise',
-    message: 'Hi, I would like to book this property for next month...',
-    date: '2024-01-15',
-    isRead: false,
-  },
-  {
-    id: '2',
-    guestName: 'John Reyes',
-    email: 'john@example.com',
-    propertyName: 'Mountain View Retreat',
-    message: 'Is this property available for the holidays?',
-    date: '2024-01-14',
-    isRead: false,
-  },
-  {
-    id: '3',
-    guestName: 'Lisa Chen',
-    email: 'lisa@example.com',
-    propertyName: 'Modern City Apartment',
-    message: 'Can I bring my pet?',
-    date: '2024-01-13',
-    isRead: true,
-  },
-];
+import { AdminLayout } from '@/components/admin';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function AdminDashboard() {
-  const unreadCount = mockInquiries.filter(i => !i.isRead).length;
+  const [properties, setProperties] = useState<any[]>([]);
+  const [inquiries, setInquiries] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch properties
+        const propertiesResponse = await fetch('/api/properties');
+        if (propertiesResponse.ok) {
+          const propertiesData = await propertiesResponse.json();
+          setProperties(propertiesData);
+        }
+
+        // Fetch inquiries
+        const inquiriesResponse = await fetch('/api/inquiries');
+        if (inquiriesResponse.ok) {
+          const inquiriesData = await inquiriesResponse.json();
+          setInquiries(inquiriesData);
+        }
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const unreadCount = inquiries.filter(i => !i.isRead).length;
 
   return (
     <AdminLayout>
@@ -51,8 +52,10 @@ export default function AdminDashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Total Properties</p>
-                <p className="text-3xl font-bold text-gray-900">{mockProperties.length}</p>
-                <p className="text-xs text-green-600 mt-1">All published</p>
+                <p className="text-3xl font-bold text-gray-900">{loading ? '...' : properties.length}</p>
+                <p className="text-xs text-green-600 mt-1">
+                  {loading ? 'Loading...' : properties.length === 0 ? 'No properties yet' : 'All published'}
+                </p>
               </div>
               <div className="text-4xl">🏠</div>
             </div>
@@ -98,25 +101,25 @@ export default function AdminDashboard() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
             <Link
               href="/admin/properties/new"
-              className="px-4 py-3 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors text-center min-h-touch flex items-center justify-center"
+              className="px-4 py-3 bg-brand-600 text-white rounded-lg font-medium hover:bg-brand-700 transition-colors text-center min-h-touch flex items-center justify-center"
             >
               + Add Property
             </Link>
             <Link
               href="/admin/calendar"
-              className="px-4 py-3 bg-white text-gray-700 border-2 border-gray-300 rounded-lg font-medium hover:border-primary-600 hover:text-primary-600 transition-colors text-center min-h-touch flex items-center justify-center"
+              className="px-4 py-3 bg-white text-gray-700 border-2 border-gray-300 rounded-lg font-medium hover:border-brand-600 hover:text-brand-600 transition-colors text-center min-h-touch flex items-center justify-center"
             >
               Manage Calendar
             </Link>
             <Link
               href="/admin/gallery"
-              className="px-4 py-3 bg-white text-gray-700 border-2 border-gray-300 rounded-lg font-medium hover:border-primary-600 hover:text-primary-600 transition-colors text-center min-h-touch flex items-center justify-center"
+              className="px-4 py-3 bg-white text-gray-700 border-2 border-gray-300 rounded-lg font-medium hover:border-brand-600 hover:text-brand-600 transition-colors text-center min-h-touch flex items-center justify-center"
             >
               Upload Photos
             </Link>
             <Link
               href="/admin/inquiries"
-              className="px-4 py-3 bg-white text-gray-700 border-2 border-gray-300 rounded-lg font-medium hover:border-primary-600 hover:text-primary-600 transition-colors text-center min-h-touch flex items-center justify-center"
+              className="px-4 py-3 bg-white text-gray-700 border-2 border-gray-300 rounded-lg font-medium hover:border-brand-600 hover:text-brand-600 transition-colors text-center min-h-touch flex items-center justify-center"
             >
               View Inquiries
             </Link>
@@ -127,30 +130,36 @@ export default function AdminDashboard() {
         <div className="bg-white rounded-lg shadow">
           <div className="p-6 border-b border-gray-200 flex items-center justify-between">
             <h3 className="text-lg font-semibold text-gray-900">Recent Inquiries</h3>
-            <Link href="/admin/inquiries" className="text-sm text-primary-600 hover:text-primary-700 font-medium">
+            <Link href="/admin/inquiries" className="text-sm text-brand-600 hover:text-brand-700 font-medium">
               View All →
             </Link>
           </div>
           <div className="divide-y divide-gray-200">
-            {mockInquiries.slice(0, 3).map((inquiry) => (
-              <div key={inquiry.id} className="p-6 hover:bg-gray-50 transition-colors">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h4 className="font-semibold text-gray-900">{inquiry.guestName}</h4>
-                      {!inquiry.isRead && (
-                        <span className="px-2 py-1 bg-orange-100 text-orange-800 text-xs font-medium rounded">
-                          New
-                        </span>
-                      )}
+            {loading ? (
+              <div className="p-6 text-center text-gray-500">Loading inquiries...</div>
+            ) : inquiries.length === 0 ? (
+              <div className="p-6 text-center text-gray-500">No inquiries yet</div>
+            ) : (
+              inquiries.slice(0, 3).map((inquiry) => (
+                <div key={inquiry.id} className="p-6 hover:bg-gray-50 transition-colors">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h4 className="font-semibold text-gray-900">{inquiry.guestName || 'Guest'}</h4>
+                        {!inquiry.isRead && (
+                          <span className="px-2 py-1 bg-orange-100 text-orange-800 text-xs font-medium rounded">
+                            New
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm text-gray-600 mb-1">{inquiry.propertyName || 'General inquiry'}</p>
+                      <p className="text-sm text-gray-700 line-clamp-2">{inquiry.message || 'No message'}</p>
                     </div>
-                    <p className="text-sm text-gray-600 mb-1">{inquiry.propertyName}</p>
-                    <p className="text-sm text-gray-700 line-clamp-2">{inquiry.message}</p>
+                    <span className="text-xs text-gray-500 ml-4">{inquiry.date || inquiry.createdAt || 'No date'}</span>
                   </div>
-                  <span className="text-xs text-gray-500 ml-4">{inquiry.date}</span>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </div>

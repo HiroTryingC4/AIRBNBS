@@ -1,0 +1,146 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  properties Property[]
+  inquiries  Inquiry[]
+
+  @@map("users")
+}
+
+model Property {
+  id              String   @id @default(cuid())
+  name            String
+  description     String?
+  location        String
+  bedCount        Int
+  bathroomCount   Int
+  guestCapacity   Int
+  pricePerNight   Float    @default(0)
+  extraPersonPrice Float   @default(0)
+  propertyType    String   @default("apartment") // apartment, house, condo, villa, studio
+  amenities       String   // JSON string of amenities
+  slug            String   @unique
+  latitude        Float?
+  longitude       Float?
+  status          String   @default("PUBLISHED") // PUBLISHED, UNPUBLISHED, DRAFT
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  ownerId         String
+  owner           User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  media           PropertyMedia[]
+  availability    Availability[]
+  inquiries       Inquiry[]
+  attractions     Attraction[]
+  reviews         Review[]
+
+  @@map("properties")
+}
+
+model PropertyMedia {
+  id           String    @id @default(cuid())
+  type         String    // IMAGE, VIDEO
+  url          String
+  thumbnailUrl String?
+  displayOrder Int       @default(0)
+  createdAt    DateTime  @default(now())
+
+  // Relations
+  propertyId   String
+  property     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@map("property_media")
+}
+
+model Availability {
+  id     String   @id @default(cuid())
+  date   DateTime
+  status String   // AVAILABLE, BOOKED, BLOCKED
+
+  // Relations
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@unique([propertyId, date])
+  @@map("availability")
+}
+
+model Inquiry {
+  id           String    @id @default(cuid())
+  guestName    String
+  guestEmail   String
+  checkInDate  DateTime?
+  checkOutDate DateTime?
+  guestCount   Int?
+  message      String
+  status       String    @default("UNREAD") // UNREAD, READ, RESPONDED, ARCHIVED
+  createdAt    DateTime  @default(now())
+
+  // Relations
+  propertyId   String
+  property     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id])
+
+  @@map("inquiries")
+}
+
+model Attraction {
+  id          String @id @default(cuid())
+  name        String
+  description String?
+  distance    String // e.g., "0.5 km", "10 minutes walk"
+  category    String // e.g., "restaurant", "beach", "tourist_destination"
+
+  // Relations
+  propertyId  String
+  property    Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@map("attractions")
+}
+
+model Review {
+  id          String   @id @default(cuid())
+  guestName   String
+  rating      Int      // 1-5 stars
+  comment     String
+  date        DateTime
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  // Relations
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+
+  @@map("reviews")
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  message   String
+  status    String   @default("UNREAD") // UNREAD, READ, RESPONDED, ARCHIVED
+  createdAt DateTime @default(now())
+
+  @@map("contact_messages")
+}

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import Chatbot from './Chatbot';
 
 interface PublicLayoutProps {
   children: React.ReactNode;
@@ -36,8 +37,8 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
         <nav className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             {/* Logo/Brand */}
-            <Link href="/" className="text-2xl font-bold text-primary-600 hover:text-primary-700 transition-colors">
-              Moonplace
+            <Link href="/" className="text-2xl font-bold text-brand-600 hover:text-brand-700 transition-colors">
+              Evangelina's Staycation
             </Link>
 
             {/* Desktop Navigation */}
@@ -48,8 +49,8 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
                   href={link.href}
                   className={`text-sm font-medium transition-colors min-h-touch flex items-center ${
                     isActive(link.href)
-                      ? 'text-primary-600 border-b-2 border-primary-600'
-                      : 'text-gray-700 hover:text-primary-600'
+                      ? 'text-brand-600 border-b-2 border-brand-600'
+                      : 'text-gray-700 hover:text-brand-600'
                   }`}
                 >
                   {link.label}
@@ -60,7 +61,7 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden min-w-touch min-h-touch flex items-center justify-center text-gray-700 hover:text-primary-600 transition-colors"
+              className="md:hidden min-w-touch min-h-touch flex items-center justify-center text-gray-700 hover:text-brand-600 transition-colors"
               aria-label="Toggle menu"
               aria-expanded={isMobileMenuOpen}
             >
@@ -87,8 +88,8 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`text-base font-medium transition-colors min-h-touch flex items-center px-4 py-2 rounded-md ${
                       isActive(link.href)
-                        ? 'text-primary-600 bg-primary-50'
-                        : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                        ? 'text-brand-600 bg-brand-50'
+                        : 'text-gray-700 hover:text-brand-600 hover:bg-gray-50'
                     }`}
                   >
                     {link.label}
@@ -111,9 +112,9 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* About Section */}
             <div>
-              <h3 className="text-lg font-semibold mb-4">Moonplace</h3>
+              <h3 className="text-lg font-semibold mb-4">Evangelina's Staycation</h3>
               <p className="text-gray-400 text-sm">
-                Your cozy studio unit at Trees Residences, Quezon City. Experience comfort and convenience in the heart of the city.
+                Your cozy studio unit at Urban Deca Towers Cubao, Quezon City. Experience comfort and convenience in the heart of the city.
               </p>
             </div>
 
@@ -138,18 +139,21 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
             <div>
               <h3 className="text-lg font-semibold mb-4">Contact</h3>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li>Email: hello@moonplace.com</li>
+                <li>Email: hello@evangelinasstaycation.com</li>
                 <li>Phone: +63 XXX XXX XXXX</li>
-                <li>Location: Trees Residences, Quezon City</li>
+                <li>Location: Cubao, Quezon City</li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; {new Date().getFullYear()} Moonplace. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Evangelina's Staycation. All rights reserved.</p>
           </div>
         </div>
       </footer>
+
+      {/* Chatbot */}
+      <Chatbot />
     </div>
   );
 }

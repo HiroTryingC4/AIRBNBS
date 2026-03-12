@@ -62,13 +62,29 @@ export default function RegisterPage() {
 
     setIsSubmitting(true);
 
-    // Mock registration
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // Redirect to login page
-    router.push('/admin/login');
-
-    setIsSubmitting(false);
+      if (response.ok) {
+        // Redirect to login page
+        router.push('/admin/login');
+      } else {
+        const errorData = await response.json();
+        console.error('Registration failed:', errorData.message);
+        // Handle registration error (you might want to show an error message)
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      // Handle network error
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,12 +97,12 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-600 to-primary-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-brand-600 to-brand-800 flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         {/* Logo/Brand */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2">Moonplace</h1>
-          <p className="text-primary-100">Create Your Admin Account</p>
+          <h1 className="text-4xl font-bold text-white mb-2">Evangelina's Staycation</h1>
+          <p className="text-brand-100">Create Your Admin Account</p>
         </div>
 
         {/* Register Card */}
@@ -105,7 +121,7 @@ export default function RegisterPage() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent ${
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent ${
                   errors.name ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="John Doe"
@@ -124,7 +140,7 @@ export default function RegisterPage() {
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent ${
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent ${
                   errors.email ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="admin@example.com"
@@ -143,7 +159,7 @@ export default function RegisterPage() {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent ${
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent ${
                   errors.password ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="••••••••"
@@ -184,7 +200,7 @@ export default function RegisterPage() {
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-600 focus:border-transparent ${
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-600 focus:border-transparent ${
                   errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
                 }`}
                 placeholder="••••••••"
@@ -200,15 +216,15 @@ export default function RegisterPage() {
                 type="checkbox"
                 id="terms"
                 required
-                className="w-4 h-4 mt-1 text-primary-600 border-gray-300 rounded focus:ring-2 focus:ring-primary-600"
+                className="w-4 h-4 mt-1 text-brand-600 border-gray-300 rounded focus:ring-2 focus:ring-brand-600"
               />
               <label htmlFor="terms" className="ml-2 text-sm text-gray-700">
                 I agree to the{' '}
-                <a href="#" className="text-primary-600 hover:text-primary-700">
+                <a href="#" className="text-brand-600 hover:text-brand-700">
                   Terms and Conditions
                 </a>{' '}
                 and{' '}
-                <a href="#" className="text-primary-600 hover:text-primary-700">
+                <a href="#" className="text-brand-600 hover:text-brand-700">
                   Privacy Policy
                 </a>
               </label>
@@ -218,7 +234,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 transition-colors min-h-touch disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-6 py-3 bg-brand-600 text-white rounded-lg font-semibold hover:bg-brand-700 transition-colors min-h-touch disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Creating account...' : 'Create Account'}
             </button>
@@ -228,7 +244,7 @@ export default function RegisterPage() {
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}
-              <Link href="/admin/login" className="text-primary-600 hover:text-primary-700 font-medium">
+              <Link href="/admin/login" className="text-brand-600 hover:text-brand-700 font-medium">
                 Sign in
               </Link>
             </p>
@@ -237,7 +253,7 @@ export default function RegisterPage() {
 
         {/* Back to Home */}
         <div className="text-center mt-6">
-          <Link href="/" className="text-primary-100 hover:text-white transition-colors">
+          <Link href="/" className="text-brand-100 hover:text-white transition-colors">
             ← Back to Home
           </Link>
         </div>

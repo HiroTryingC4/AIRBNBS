@@ -23,8 +23,10 @@ export default function PropertyGallery({ media, propertyName }: PropertyGallery
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const lightboxRef = useRef<HTMLDivElement>(null);
 
-  // Sort media by display order
-  const sortedMedia = [...media].sort((a, b) => a.displayOrder - b.displayOrder);
+  // Sort media by display order with safety check
+  const sortedMedia = (media && Array.isArray(media) && media.length > 0) 
+    ? [...media].sort((a, b) => a.displayOrder - b.displayOrder)
+    : [];
 
   // Minimum swipe distance (in px)
   const minSwipeDistance = 50;
@@ -232,8 +234,8 @@ export default function PropertyGallery({ media, propertyName }: PropertyGallery
                   onClick={() => goToIndex(index)}
                   className={`relative flex-shrink-0 w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden border-2 transition-all min-w-[44px] min-h-[44px] ${
                     index === currentIndex
-                      ? 'border-primary-600 ring-2 ring-primary-300'
-                      : 'border-gray-300 hover:border-primary-400'
+                      ? 'border-brand-600 ring-2 ring-brand-300'
+                      : 'border-gray-300 hover:border-brand-400'
                   }`}
                   aria-label={`View ${item.mediaType === 'VIDEO' ? 'video' : 'image'} ${index + 1}`}
                 >

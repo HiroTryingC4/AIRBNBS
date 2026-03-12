@@ -80,6 +80,30 @@ body {
   }
 }
 
+@keyframes typing-glow {
+  0% {
+    background-position: -200% 0;
+    box-shadow: 0 0 0 rgba(230, 211, 179, 0);
+  }
+  50% {
+    background-position: 200% 0;
+    box-shadow: 0 0 10px rgba(230, 211, 179, 0.3);
+  }
+  100% {
+    background-position: -200% 0;
+    box-shadow: 0 0 0 rgba(230, 211, 179, 0);
+  }
+}
+
+@keyframes number-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
 .animate-fadeInUp {
   animation: fadeInUp 0.6s ease-out forwards;
 }
@@ -98,4 +122,12 @@ body {
 
 .animate-scaleIn {
   animation: scaleIn 0.6s ease-out forwards;
+}
+
+.typing-animation {
+  animation: typing-glow 2s ease-in-out;
+}
+
+.number-pulse {
+  animation: number-pulse 0.3s ease-in-out;
 }

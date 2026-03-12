@@ -8,3 +8,4 @@ export type { AvailabilityCalendarProps, AvailabilityData, AvailabilityStatus } 
 // MapDisplay is not exported here to avoid SSR issues with Leaflet
 // Import it directly with dynamic() where needed
 export { default as PropertyFilter } from './PropertyFilter';
+export { default as Chatbot } from './Chatbot';
