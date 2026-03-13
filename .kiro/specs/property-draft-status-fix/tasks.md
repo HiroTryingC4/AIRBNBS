@@ -15,7 +15,7 @@
   - Mark task complete when test is written, run, and failure is documented
   - _Requirements: 1.1, 1.2, 1.3_
 
-- [~] 2. Write preservation property tests (BEFORE implementing fix)
+- [ ] 2. Write preservation property tests (BEFORE implementing fix)
   - **Property 2: Preservation** - Non-Status Display Functionality
   - **IMPORTANT**: Follow observation-first methodology
   - Observe behavior on UNFIXED code for non-buggy inputs (mouse clicks, navigation, API calls)
@@ -28,7 +28,7 @@
 
 - [ ] 3. Fix status badge display in admin properties page
 
-  - [~] 3.1 Implement the fix
+  - [ ] 3.1 Implement the fix
     - Locate the status badge JSX element in app/admin/properties/page.tsx (around line 120-125)
     - Replace any hardcoded "DRAFT" text with dynamic {property.status} value
     - Verify the badge text content uses the actual property.status from database
@@ -38,7 +38,7 @@
     - _Preservation: Mouse clicks, filtering, API calls, and navigation must remain unchanged_
     - _Requirements: 2.1, 2.2, 2.3_
 
-  - [~] 3.2 Verify bug condition exploration test now passes
+  - [ ] 3.2 Verify bug condition exploration test now passes
     - **Property 1: Expected Behavior** - Published Properties Show PUBLISHED Badge
     - **IMPORTANT**: Re-run the SAME test from task 1 - do NOT write a new test
     - The test from task 1 encodes the expected behavior
@@ -47,12 +47,12 @@
     - **EXPECTED OUTCOME**: Test PASSES (confirms bug is fixed)
     - _Requirements: Expected Behavior Properties from design_
 
-  - [~] 3.3 Verify preservation tests still pass
+  - [ ] 3.3 Verify preservation tests still pass
     - **Property 2: Preservation** - Non-Status Display Functionality
     - **IMPORTANT**: Re-run the SAME tests from task 2 - do NOT write new tests
     - Run preservation property tests from step 2
     - **EXPECTED OUTCOME**: Tests PASS (confirms no regressions)
     - Confirm all tests still pass after fix (no regressions)
 
-- [~] 4. Checkpoint - Ensure all tests pass
+- [ ] 4. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
