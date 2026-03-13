@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { AdminLayout } from '@/components/admin';
+import { AdminLayout } from '@/components/admin'
 
 interface ChatbotConfig {
   id?: string;

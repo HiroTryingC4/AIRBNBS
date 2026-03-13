@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { AdminLayout } from '@/components/admin';
+import { AdminLayout } from '@/components/admin'
 
 export default function ContentEditorPage() {
   const [activeSection, setActiveSection] = useState<'hero' | 'about' | 'contact' | 'footer'>('hero');

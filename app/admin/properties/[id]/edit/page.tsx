@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import AdminLayout from '@/components/admin/AdminLayout'
-import ImageUpload from '@/components/admin/ImageUpload'
-import LocationPicker from '@/components/admin/LocationPicker'
+import { AdminLayout, ImageUpload, LocationPicker } from '@/components/admin'
 
 interface ImageFile {
 	id: string
