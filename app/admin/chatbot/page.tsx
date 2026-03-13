@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { AdminLayout } from '@/components/admin'
 
+export const dynamic = 'force-dynamic'
+
 interface ChatbotConfig {
   id?: string;
   isEnabled: boolean;

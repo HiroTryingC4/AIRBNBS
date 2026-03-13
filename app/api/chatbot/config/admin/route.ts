@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
 // Default chatbot configuration
 const defaultConfig = {
   isEnabled: true,

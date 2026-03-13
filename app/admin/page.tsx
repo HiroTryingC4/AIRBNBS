@@ -4,6 +4,8 @@ import { AdminLayout } from '@/components/admin';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 
+export const dynamic = 'force-dynamic'
+
 export default function AdminDashboard() {
   const [properties, setProperties] = useState<any[]>([]);
   const [inquiries, setInquiries] = useState<any[]>([]);

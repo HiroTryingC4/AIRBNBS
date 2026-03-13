@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { AdminLayout, ImageUpload, LocationPicker } from '@/components/admin'
 
+export const dynamic = 'force-dynamic'
+
 interface ImageFile {
 	id: string
 	file: File

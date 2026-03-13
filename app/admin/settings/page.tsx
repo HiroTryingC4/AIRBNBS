@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { AdminLayout } from '@/components/admin';
 
+export const dynamic = 'force-dynamic'
+
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<'profile' | 'password' | 'preferences'>('profile');
   const [loading, setLoading] = useState(true);

@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { AdminLayout } from '@/components/admin'
 
+export const dynamic = 'force-dynamic'
+
 export default function ContentEditorPage() {
   const [activeSection, setActiveSection] = useState<'hero' | 'about' | 'contact' | 'footer'>('hero');
   const [saving, setSaving] = useState(false);

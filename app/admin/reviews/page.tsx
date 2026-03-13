@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { AdminLayout } from '@/components/admin';
+
+export const dynamic = 'force-dynamic'
 import ConfirmationModal from '@/components/ConfirmationModal';
 import { useConfirmation } from '@/lib/hooks/useConfirmation';
 

@@ -5,6 +5,8 @@ import { AdminLayout } from '@/components/admin';
 import ConfirmationModal from '@/components/ConfirmationModal';
 import { useConfirmation } from '@/lib/hooks/useConfirmation';
 
+export const dynamic = 'force-dynamic'
+
 interface InquiryWithProperty {
   id: string;
   guestName: string;

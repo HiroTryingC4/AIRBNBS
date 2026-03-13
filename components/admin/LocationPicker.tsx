@@ -1,19 +1,23 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import dynamic from 'next/dynamic';
 
 // Fix for default marker icon in Leaflet with Next.js
-const icon = L.icon({
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
+const createIcon = () => {
+  if (typeof window === 'undefined') return null;
+  
+  const L = require('leaflet');
+  return L.icon({
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+    shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
+};
 
 interface LocationPickerProps {
   latitude?: number;
@@ -22,64 +26,85 @@ interface LocationPickerProps {
   height?: string;
 }
 
-export default function LocationPicker({
+function LocationPickerComponent({
   latitude = 14.6760, // Default to Cubao, Quezon City
   longitude = 121.0437,
   onLocationChange,
   height = '400px',
 }: LocationPickerProps) {
   const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<L.Map | null>(null);
-  const markerRef = useRef<L.Marker | null>(null);
+  const mapInstanceRef = useRef<any>(null);
+  const markerRef = useRef<any>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined' || !mapRef.current) return;
 
-    if (mapInstanceRef.current) {
-      // Update existing map
-      if (markerRef.current) {
-        markerRef.current.setLatLng([latitude, longitude]);
-        mapInstanceRef.current.setView([latitude, longitude], 15);
+    // Dynamically import Leaflet and CSS
+    const loadLeaflet = async () => {
+      const L = (await import('leaflet')).default;
+      
+      // Import CSS dynamically
+      if (typeof document !== 'undefined') {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+        document.head.appendChild(link);
       }
-      return;
-    }
+      
+      const icon = createIcon();
+      if (!icon) return;
 
-    // Initialize map
-    const map = L.map(mapRef.current).setView([latitude, longitude], 15);
+      if (mapInstanceRef.current) {
+        // Update existing map
+        if (markerRef.current) {
+          markerRef.current.setLatLng([latitude, longitude]);
+          mapInstanceRef.current.setView([latitude, longitude], 15);
+        }
+        return;
+      }
 
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 19,
-    }).addTo(map);
+      // Initialize map
+      if (!mapRef.current) return;
+      const map = L.map(mapRef.current).setView([latitude, longitude], 15);
 
-    // Add initial marker
-    const marker = L.marker([latitude, longitude], { 
-      icon,
-      draggable: true 
-    }).addTo(map);
+      // Add OpenStreetMap tiles
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19,
+      }).addTo(map);
 
-    marker.bindPopup('Drag me to set the property location!');
+      // Add initial marker
+      const marker = L.marker([latitude, longitude], { 
+        icon,
+        draggable: true 
+      }).addTo(map);
 
-    // Handle marker drag
-    marker.on('dragend', (e) => {
-      const position = e.target.getLatLng();
-      onLocationChange(position.lat, position.lng);
-      reverseGeocode(position.lat, position.lng);
-    });
+      marker.bindPopup('Drag me to set the property location!');
 
-    // Handle map click
-    map.on('click', (e) => {
-      const { lat, lng } = e.latlng;
-      marker.setLatLng([lat, lng]);
-      onLocationChange(lat, lng);
-      reverseGeocode(lat, lng);
-    });
+      // Handle marker drag
+      marker.on('dragend', (e: any) => {
+        const position = e.target.getLatLng();
+        onLocationChange(position.lat, position.lng);
+        reverseGeocode(position.lat, position.lng);
+      });
 
-    mapInstanceRef.current = map;
-    markerRef.current = marker;
+      // Handle map click
+      map.on('click', (e: any) => {
+        const { lat, lng } = e.latlng;
+        marker.setLatLng([lat, lng]);
+        onLocationChange(lat, lng);
+        reverseGeocode(lat, lng);
+      });
+
+      mapInstanceRef.current = map;
+      markerRef.current = marker;
+      setIsLoaded(true);
+    };
+
+    loadLeaflet();
 
     return () => {
       if (mapInstanceRef.current) {
@@ -169,8 +194,17 @@ export default function LocationPicker({
         <div
           ref={mapRef}
           style={{ height, width: '100%' }}
-          className="z-0"
-        />
+          className="z-0 relative"
+        >
+          {!isLoaded && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-600 mx-auto mb-2"></div>
+                <p className="text-gray-600">Loading map...</p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Instructions */}
@@ -186,3 +220,21 @@ export default function LocationPicker({
     </div>
   );
 }
+
+// Export as dynamic component with SSR disabled
+const LocationPicker = dynamic(() => Promise.resolve(LocationPickerComponent), {
+  ssr: false,
+  loading: () => (
+    <div className="space-y-4">
+      <div className="flex gap-2">
+        <div className="flex-1 h-10 bg-gray-200 rounded-lg animate-pulse"></div>
+        <div className="w-20 h-10 bg-gray-200 rounded-lg animate-pulse"></div>
+      </div>
+      <div className="w-full h-96 bg-gray-200 rounded-lg animate-pulse flex items-center justify-center">
+        <p className="text-gray-500">Loading map...</p>
+      </div>
+    </div>
+  )
+});
+
+export default LocationPicker;

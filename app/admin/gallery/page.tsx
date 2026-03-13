@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { AdminLayout } from '@/components/admin'
 import Image from 'next/image'
 
+export const dynamic = 'force-dynamic'
+
 interface Property {
   id: string
   name: string

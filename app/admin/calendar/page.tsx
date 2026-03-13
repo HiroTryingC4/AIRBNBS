@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { AdminLayout, CalendarManager } from '@/components/admin'
 
+export const dynamic = 'force-dynamic'
+
 interface Property {
   id: string
   name: string
