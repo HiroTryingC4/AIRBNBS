@@ -114,8 +114,11 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
             <div>
               <h3 className="text-lg font-semibold mb-4">Evangelina's Staycation</h3>
               <p className="text-gray-400 text-sm">
-                Your cozy studio unit at Urban Deca Towers Cubao, Quezon City. Experience comfort and convenience in the heart of the city.
+                Welcome to Evangelina's Staycation at Urban Deca Towers Cubao! 4 cozy Airbnb units perfect for your city getaway. ✨ Relax, recharge, and enjoy the heart of Cubao! 🏙️💛
               </p>
+              <div className="mt-4 text-gray-400 text-sm">
+                <p>📊 1.3K followers • 12 following</p>
+              </div>
             </div>
 
             {/* Quick Links */}
@@ -137,11 +140,12 @@ export default function PublicLayout({ children }: PublicLayoutProps) {
 
             {/* Contact Info */}
             <div>
-              <h3 className="text-lg font-semibold mb-4">Contact</h3>
+              <h3 className="text-lg font-semibold mb-4">Contact James</h3>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li>Email: hello@evangelinasstaycation.com</li>
-                <li>Phone: +63 XXX XXX XXXX</li>
-                <li>Location: Cubao, Quezon City</li>
+                <li>📲 Phone: 09760016381</li>
+                <li>📧 Email: evangelinasstaycation@gmail.com</li>
+                <li>📍 Location: Urban Deca Towers Cubao, Quezon City</li>
+                <li>✨ 4 cozy Airbnb units available</li>
               </ul>
             </div>
           </div>

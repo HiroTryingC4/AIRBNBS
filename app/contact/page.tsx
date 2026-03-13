@@ -286,7 +286,7 @@ export default function ContactPage() {
 
                   {/* Phone */}
                   <a
-                    href="tel:+1234567890"
+                    href="tel:09760016381"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
                   >
                     <div className="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center group-hover:bg-brand-200 transition-colors">
@@ -295,14 +295,14 @@ export default function ContactPage() {
                       </svg>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900">Phone</p>
-                      <p className="text-sm text-gray-600">+1 (234) 567-890</p>
+                      <p className="font-semibold text-gray-900">Call James</p>
+                      <p className="text-sm text-gray-600">09760016381</p>
                     </div>
                   </a>
 
                   {/* Email */}
                   <a
-                    href="mailto:info@property.com"
+                    href="mailto:evangelinasstaycation@gmail.com"
                     className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
                   >
                     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center group-hover:bg-gray-200 transition-colors">
@@ -313,7 +313,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="font-semibold text-gray-900">Email</p>
-                      <p className="text-sm text-gray-600">info@property.com</p>
+                      <p className="text-sm text-gray-600">evangelinasstaycation@gmail.com</p>
                     </div>
                   </a>
                 </div>

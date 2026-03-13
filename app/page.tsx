@@ -173,9 +173,9 @@ export default function Home() {
 
               {/* Tagline */}
               <p className="text-lg md:text-xl lg:text-2xl mb-10 text-gray-100 drop-shadow-lg max-w-3xl mx-auto">
-                4 cozy Airbnb units perfect for your city getaway ✨
+                Welcome to Evangelina's Staycation at Urban Deca Towers Cubao! 4 cozy Airbnb units perfect for your city getaway. ✨
                 <br />
-                Relax, recharge, and enjoy the heart of Cubao! 🏙️💛
+                📲 Message or call James at 09760016381 to book your stay. Relax, recharge, and enjoy the heart of Cubao! 🏙️💛
               </p>
 
               {/* Action Buttons */}
@@ -219,6 +219,9 @@ export default function Home() {
                   </svg>
                   {content.contact?.phone || '09760016381'}
                 </a>
+                <div className="mt-3 text-center">
+                  <p className="text-white/80 text-sm">📊 1.3K followers • 12 following</p>
+                </div>
               </div>
             </div>
           </div>

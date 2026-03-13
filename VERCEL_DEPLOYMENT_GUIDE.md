@@ -1,4 +1,4 @@
-# Vercel Deployment Guide for Airbnb Property Showcase Platform
+# Vercel Deployment Guide for Evangelina's Staycation Platform
 
 ## 🚀 Quick Deployment Steps
 
@@ -156,4 +156,4 @@ After deployment, test these features:
 - ✅ HTTPS is enabled (automatic with Vercel)
 - ✅ CORS is properly configured
 
-Your Airbnb Property Showcase Platform is now live! 🎉
+Your Evangelina's Staycation Platform is now live! 🎉

@@ -15,7 +15,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Evangelina's Staycation - Urban Deca Towers Cubao | 4 Cozy Airbnb Units",
-  description: "Welcome to Evangelina's Staycation at Urban Deca Towers Cubao! 4 cozy Airbnb units perfect for your city getaway. Contact James at 09760016381 to book your stay in the heart of Cubao.",
+  description: "Welcome to Evangelina's Staycation at Urban Deca Towers Cubao! 4 cozy Airbnb units perfect for your city getaway. ✨ 📲 Message or call James at 09760016381 to book your stay. Relax, recharge, and enjoy the heart of Cubao! 🏙️💛",
 };
 
 export default function RootLayout({

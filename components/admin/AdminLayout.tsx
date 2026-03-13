@@ -55,7 +55,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           {/* Sidebar Header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-200">
             <Link href="/admin" className="text-xl font-bold text-brand-600">
-              Admin Panel
+              Evangelina's Staycation Admin
             </Link>
             <button
               onClick={() => setIsSidebarOpen(false)}
@@ -157,7 +157,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         {/* Footer */}
         <footer className="bg-white border-t border-gray-200 py-4 px-4 md:px-6 lg:px-8">
           <div className="text-center text-sm text-gray-600">
-            <p>&copy; {new Date().getFullYear()} Property Showcase Admin. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Evangelina's Staycation Admin. All rights reserved.</p>
           </div>
         </footer>
       </div>

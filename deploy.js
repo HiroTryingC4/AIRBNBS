@@ -3,7 +3,7 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 
-console.log('🚀 Airbnb Property Showcase Platform - Deployment Helper\n');
+console.log('🚀 Evangelina\'s Staycation Platform - Deployment Helper\n');
 
 // Check if this is a git repository
 try {
