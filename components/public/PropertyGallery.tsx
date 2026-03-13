@@ -80,7 +80,7 @@ export default function PropertyGallery({ media, propertyName }: PropertyGallery
 
   // Keyboard navigation for lightbox
   useEffect(() => {
-    if (!isLightboxOpen) return;
+    if (!isLightboxOpen || typeof window === 'undefined') return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -98,6 +98,8 @@ export default function PropertyGallery({ media, propertyName }: PropertyGallery
 
   // Prevent body scroll when lightbox is open
   useEffect(() => {
+    if (typeof document === 'undefined') return;
+    
     if (isLightboxOpen) {
       document.body.style.overflow = 'hidden';
     } else {
