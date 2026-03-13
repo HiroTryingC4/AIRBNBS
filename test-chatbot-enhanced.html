@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Enhanced Evangelina's Staycation Chatbot Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .test-result { 
+            margin: 10px 0; 
+            padding: 10px; 
+            border-radius: 5px; 
+        }
+        .success { 
+            background-color: #d4edda; 
+            border: 1px solid #c3e6cb; 
+        }
+        .error { 
+            background-color: #f8d7da; 
+            border: 1px solid #f5c6cb; 
+        }
+        .warning { 
+            background-color: #fff3cd; 
+            border: 1px solid #ffeaa7; 
+        }
+        .response { 
+            background-color: #f8f9fa; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 5px; 
+            border-left: 4px solid #007bff;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+        }
+        .button-group {
+            margin: 20px 0;
+        }
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007bff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .chat-simulator {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .user-message {
+            background: #007bff;
+            color: white;
+            margin-left: 20%;
+        }
+        .bot-message {
+            background: #e9ecef;
+            color: #333;
+            margin-right: 20%;
+        }
+        .performance-metrics {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 Enhanced Evangelina's Staycation Chatbot Test Suite</h1>
+        
+        <div class="button-group">
+            <button class="btn" onclick="runBasicTests()">Run Basic Tests</button>
+            <button class="btn" onclick="runAdvancedTests()">Run Advanced Tests</button>
+            <button class="btn" onclick="runPerformanceTests()">Performance Tests</button>
+            <button class="btn" onclick="simulateConversation()">Simulate Conversation</button>
+            <button class="btn btn-secondary" onclick="clearResults()">Clear Results</button>
+        </div>
+
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalTests">0</div>
+                <div>Total Tests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="passedTests">0</div>
+                <div>Passed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="failedTests">0</div>
+                <div>Failed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgResponseTime">0ms</div>
+                <div>Avg Response Time</div>
+            </div>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let testStats = {
+            total: 0,
+            passed: 0,
+            failed: 0,
+            responseTimes: []
+        };
+
+        function updateStats() {
+            document.getElementById('totalTests').textContent = testStats.total;
+            document.getElementById('passedTests').textContent = testStats.passed;
+            document.getElementById('failedTests').textContent = testStats.failed;
+            
+            const avgTime = testStats.responseTimes.length > 0 
+                ? Math.round(testStats.responseTimes.reduce((a, b) => a + b, 0) / testStats.responseTimes.length)
+                : 0;
+            document.getElementById('avgResponseTime').textContent = avgTime + 'ms';
+        }
+
+        function addResult(type, title, content) {
+            const results = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${type}`;
+            resultDiv.innerHTML = `<strong>${title}</strong><br>${content}`;
+            results.appendChild(resultDiv);
+            
+            testStats.total++;
+            if (type === 'success') testStats.passed++;
+            if (type === 'error') testStats.failed++;
+            updateStats();
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+            testStats = { total: 0, passed: 0, failed: 0, responseTimes: [] };
+            updateStats();
+        }
+
+        async function makeRequest(url, options = {}) {
+            const startTime = Date.now();
+            try {
+                const response = await fetch(url, options);
+                const endTime = Date.now();
+                const responseTime = endTime - startTime;
+                testStats.responseTimes.push(responseTime);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                return await response.json();
+            } catch (error) {
+                const endTime = Date.now();
+                const responseTime = endTime - startTime;
+                testStats.responseTimes.push(responseTime);
+                throw error;
+            }
+        }
+
+        async function runBasicTests() {
+            addResult('warning', '🔄 Starting Basic Tests', 'Testing core chatbot functionality...');
+            
+            try {
+                // Test 1: Config API
+                const config = await makeRequest('http://localhost:3001/api/chatbot/config');
+                addResult('success', '✅ Config API', `Welcome message loaded (${config.welcomeMessage.length} chars)`);
+                
+                // Test 2: Q&A API
+                const qaData = await makeRequest('http://localhost:3001/api/chatbot/qa/public');
+                addResult('success', '✅ Q&A API', `Found ${qaData.length} Q&A pairs`);
+                
+                // Test 3: Basic message
+                const messageResult = await makeRequest('http://localhost:3001/api/chatbot/message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sessionId: 'test_basic_' + Date.now(),
+                        message: 'Hello',
+                        guestName: 'Test User'
+                    })
+                });
+                
+                addResult('success', '✅ Message API', 
+                    `<div class="response">Bot: ${messageResult.response.message}</div>`);
+                
+                addResult('success', '🎉 Basic Tests Complete', 'All core APIs are working correctly!');
+                
+            } catch (error) {
+                addResult('error', '❌ Basic Test Failed', error.message);
+            }
+        }
+
+        async function runAdvancedTests() {
+            addResult('warning', '🔄 Starting Advanced Tests', 'Testing edge cases and error handling...');
+            
+            const advancedTestCases = [
+                { message: '', description: 'Empty message' },
+                { message: 'a'.repeat(1000), description: 'Very long message' },
+                { message: '🏠🌟💫', description: 'Emoji-only message' },
+                { message: 'SELECT * FROM users', description: 'SQL injection attempt' },
+                { message: '<script>alert("xss")</script>', description: 'XSS attempt' },
+                { message: 'What is the meaning of life?', description: 'Off-topic question' },
+                { message: 'BOOK NOW URGENT!!!', description: 'All caps message' }
+            ];
+
+            for (const testCase of advancedTestCases) {
+                try {
+                    const result = await makeRequest('http://localhost:3001/api/chatbot/message', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            sessionId: 'test_advanced_' + Date.now(),
+                            message: testCase.message,
+                            guestName: 'Advanced Tester'
+                        })
+                    });
+                    
+                    addResult('success', `✅ ${testCase.description}`, 
+                        `<div class="response">Input: "${testCase.message.substring(0, 50)}..."<br>
+                         Bot: ${result.response.message.substring(0, 100)}...</div>`);
+                    
+                } catch (error) {
+                    addResult('error', `❌ ${testCase.description}`, error.message);
+                }
+            }
+        }
+
+        async function runPerformanceTests() {
+            addResult('warning', '🔄 Starting Performance Tests', 'Testing response times and load handling...');
+            
+            const concurrentRequests = 5;
+            const testMessage = 'What are your room rates?';
+            
+            try {
+                // Test concurrent requests
+                const promises = [];
+                for (let i = 0; i < concurrentRequests; i++) {
+                    promises.push(
+                        makeRequest('http://localhost:3001/api/chatbot/message', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                sessionId: `test_perf_${i}_${Date.now()}`,
+                                message: testMessage,
+                                guestName: `Perf Tester ${i}`
+                            })
+                        })
+                    );
+                }
+                
+                const startTime = Date.now();
+                const results = await Promise.all(promises);
+                const endTime = Date.now();
+                
+                const totalTime = endTime - startTime;
+                const avgTime = totalTime / concurrentRequests;
+                
+                addResult('success', '✅ Concurrent Requests', 
+                    `${concurrentRequests} requests completed in ${totalTime}ms (avg: ${avgTime.toFixed(2)}ms per request)`);
+                
+                // Test response time consistency
+                const recentTimes = testStats.responseTimes.slice(-10);
+                const maxTime = Math.max(...recentTimes);
+                const minTime = Math.min(...recentTimes);
+                const variance = maxTime - minTime;
+                
+                if (variance < 1000) {
+                    addResult('success', '✅ Response Time Consistency', 
+                        `Low variance: ${variance}ms (${minTime}ms - ${maxTime}ms)`);
+                } else {
+                    addResult('warning', '⚠️ Response Time Variance', 
+                        `High variance: ${variance}ms (${minTime}ms - ${maxTime}ms)`);
+                }
+                
+            } catch (error) {
+                addResult('error', '❌ Performance Test Failed', error.message);
+            }
+        }
+
+        async function simulateConversation() {
+            const results = document.getElementById('results');
+            const chatDiv = document.createElement('div');
+            chatDiv.className = 'chat-simulator';
+            chatDiv.innerHTML = '<h3>💬 Conversation Simulation</h3>';
+            results.appendChild(chatDiv);
+            
+            const conversation = [
+                'Hello, I\'m interested in booking a room',
+                'What are your rates?',
+                'Do you have availability next weekend?',
+                'What amenities do you offer?',
+                'How can I make a reservation?',
+                'Thank you for the information!'
+            ];
+            
+            const sessionId = 'conversation_sim_' + Date.now();
+            
+            for (let i = 0; i < conversation.length; i++) {
+                const userMessage = conversation[i];
+                
+                // Add user message to chat
+                const userDiv = document.createElement('div');
+                userDiv.className = 'message user-message';
+                userDiv.textContent = `You: ${userMessage}`;
+                chatDiv.appendChild(userDiv);
+                
+                try {
+                    // Send message to bot
+                    const result = await makeRequest('http://localhost:3001/api/chatbot/message', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            sessionId: sessionId,
+                            message: userMessage,
+                            guestName: 'Conversation Simulator'
+                        })
+                    });
+                    
+                    // Add bot response to chat
+                    const botDiv = document.createElement('div');
+                    botDiv.className = 'message bot-message';
+                    botDiv.textContent = `Bot: ${result.response.message}`;
+                    chatDiv.appendChild(botDiv);
+                    
+                    // Add small delay for realistic conversation flow
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                    
+                } catch (error) {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'message bot-message';
+                    errorDiv.style.backgroundColor = '#f8d7da';
+                    errorDiv.textContent = `Error: ${error.message}`;
+                    chatDiv.appendChild(errorDiv);
+                }
+            }
+            
+            addResult('success', '✅ Conversation Simulation Complete', 
+                `Simulated ${conversation.length} message exchange`);
+        }
+
+        // Auto-run basic tests on page load
+        window.onload = function() {
+            setTimeout(() => {
+                addResult('warning', '🚀 Enhanced Chatbot Test Suite Loaded', 
+                    'Ready to test your Evangelina\'s Staycation chatbot. Click any button above to start testing!');
+            }, 500);
+        };
+    </script>
+</body>
+</html>

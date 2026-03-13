@@ -3,22 +3,23 @@ import { NextRequest, NextResponse } from 'next/server';
 // Default chatbot configuration
 const defaultConfig = {
   isEnabled: true,
-  welcomeMessage: "Hi! I'm here to help you with information about our properties. What can I help you with today?",
+  welcomeMessage: "Hi! 👋 Welcome to Evangelina's Staycation! I'm here to help you with booking our 4 cozy Airbnb units at Urban Deca Towers Cubao. How can I assist you today?",
   position: 'bottom-right' as const,
   primaryColor: '#3B82F6',
   textColor: '#FFFFFF',
   backgroundColor: '#FFFFFF',
   borderRadius: '12px',
   showOnPages: 'all',
-  autoOpenDelay: null,
-  offlineMessage: "We're currently offline. Please leave a message and we'll get back to you!",
-  businessHours: null,
+  autoOpenDelay: 3,
+  offlineMessage: "Thanks for your interest! Please call James at 09760016381 for immediate assistance with booking.",
+  businessHours: "24/7 - We're always here to help!",
   quickReplies: JSON.stringify([
     "Check availability",
-    "What dates are available?",
-    "Property information", 
-    "Booking inquiry",
-    "Contact host"
+    "View our 4 units",
+    "Get pricing info", 
+    "Call James",
+    "Location details",
+    "Amenities"
   ])
 };
 

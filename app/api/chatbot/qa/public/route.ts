@@ -5,50 +5,72 @@ const fallbackQAPairs = [
   {
     id: '1',
     question: 'What are your check-in and check-out times?',
-    answer: 'Check-in is at 3:00 PM and check-out is at 11:00 AM. Early check-in or late check-out may be available upon request - just let us know your needs!',
-    keywords: ['check-in', 'check-out', 'time', 'arrival', 'departure']
+    answer: 'Check-in is at 3:00 PM and check-out is at 11:00 AM. Early check-in or late check-out may be available upon request - just call James at 09760016381!',
+    keywords: ['check-in', 'check-out', 'time', 'arrival', 'departure'],
+    isActive: true
   },
   {
     id: '2',
-    question: 'Do you allow pets?',
-    answer: 'We welcome well-behaved pets! There is a pet fee of $25 per night per pet. Please let us know in advance if you\'re bringing a furry friend.',
-    keywords: ['pets', 'dogs', 'cats', 'animals', 'pet-friendly']
+    question: 'How many units do you have available?',
+    answer: 'We have 4 cozy Airbnb units at Urban Deca Towers Cubao! Each unit is perfect for your city getaway with modern amenities and great city views. 🏙️',
+    keywords: ['units', 'rooms', 'how many', 'available', 'properties'],
+    isActive: true
   },
   {
     id: '3',
-    question: 'Is parking available?',
-    answer: 'Yes, we provide free parking for our guests! Each property has designated parking spaces available. No need to worry about finding street parking.',
-    keywords: ['parking', 'car', 'vehicle', 'garage']
+    question: 'Where exactly are you located?',
+    answer: 'We\'re located at Urban Deca Towers Cubao in Quezon City - right in the heart of Cubao! Perfect location with easy access to malls, restaurants, and transportation. 📍',
+    keywords: ['location', 'address', 'where', 'cubao', 'quezon city'],
+    isActive: true
   },
   {
     id: '4',
-    question: 'What amenities do you offer?',
-    answer: 'Our properties include WiFi, air conditioning, fully equipped kitchens, smart TVs, premium bedding, and hot showers. Each property may have additional amenities like pools or gyms!',
-    keywords: ['amenities', 'facilities', 'features', 'wifi', 'kitchen']
+    question: 'How can I contact James for booking?',
+    answer: 'You can call or message James directly at 09760016381! He\'s available to help with bookings, answer questions, and ensure you have a great stay. 📲',
+    keywords: ['contact', 'james', 'phone', 'booking', 'call'],
+    isActive: true
   },
   {
     id: '5',
-    question: 'How do I make a reservation?',
-    answer: 'I\'d love to help you book! Just let me know your preferred dates, number of guests, and which property interests you. I can check availability and guide you through the process.',
-    keywords: ['book', 'reserve', 'booking', 'reservation']
+    question: 'What amenities do your units have?',
+    answer: 'Our units include WiFi, air conditioning, fully equipped kitchen, comfortable beds, hot shower, and beautiful city views! Perfect for a relaxing staycation. ✨',
+    keywords: ['amenities', 'facilities', 'features', 'wifi', 'kitchen', 'aircon'],
+    isActive: true
   },
   {
     id: '6',
-    question: 'What\'s your cancellation policy?',
-    answer: 'We offer flexible cancellation! You can cancel up to 48 hours before check-in for a full refund. For cancellations within 48 hours, we charge one night\'s stay.',
-    keywords: ['cancel', 'cancellation', 'refund', 'policy']
+    question: 'Is parking available?',
+    answer: 'Yes! Urban Deca Towers has parking facilities available. Please mention if you need parking when you contact James for booking. 🚗',
+    keywords: ['parking', 'car', 'vehicle', 'garage'],
+    isActive: true
   },
   {
     id: '7',
-    question: 'Are your properties family-friendly?',
-    answer: 'Absolutely! Our properties are perfect for families. We can provide cribs, high chairs, and other baby equipment upon request. Many properties have pools and family amenities.',
-    keywords: ['family', 'kids', 'children', 'baby', 'family-friendly']
+    question: 'What\'s the price per night?',
+    answer: 'Our rates are very competitive for the location and amenities! Please call James at 09760016381 for current pricing and any special offers. Rates may vary by season and length of stay. 💰',
+    keywords: ['price', 'cost', 'rate', 'how much', 'pricing'],
+    isActive: true
   },
   {
     id: '8',
-    question: 'What\'s included in the price?',
-    answer: 'Your stay includes WiFi, utilities, basic toiletries, fresh linens, towels, and access to all listed amenities. Cleaning fee and taxes are separate - no hidden charges!',
-    keywords: ['price', 'cost', 'included', 'fees', 'utilities']
+    question: 'Can I book for multiple nights?',
+    answer: 'Absolutely! We welcome both short stays and longer bookings. Contact James at 09760016381 to discuss your dates and get the best rates for extended stays. 🗓️',
+    keywords: ['multiple nights', 'long stay', 'extended', 'weekly', 'monthly'],
+    isActive: true
+  },
+  {
+    id: '9',
+    question: 'Are your units family-friendly?',
+    answer: 'Yes! Our units are perfect for families and couples alike. Each unit can comfortably accommodate guests with all the amenities you need for a comfortable stay. 👨‍👩‍👧‍👦',
+    keywords: ['family', 'kids', 'children', 'family-friendly', 'couples'],
+    isActive: true
+  },
+  {
+    id: '10',
+    question: 'How do I make a reservation?',
+    answer: 'Easy! Just call or message James at 09760016381 with your preferred dates and number of guests. He\'ll check availability and help you book your perfect staycation! 🎉',
+    keywords: ['book', 'reserve', 'booking', 'reservation', 'how to book'],
+    isActive: true
   }
 ];
 

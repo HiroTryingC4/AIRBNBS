@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Evangelina's Staycation Chatbot</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; }
+        .response { background-color: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🤖 Evangelina's Staycation Chatbot Test</h1>
+    
+    <button onclick="testChatbot()">Test Chatbot APIs</button>
+    
+    <div id="results"></div>
+
+    <script>
+        async function testChatbot() {
+            const results = document.getElementById('results');
+            results.innerHTML = '<p>Testing chatbot APIs...</p>';
+            
+            try {
+                // Test 1: Get chatbot config
+                console.log('Testing chatbot config...');
+                const configResponse = await fetch('http://localhost:3000/api/chatbot/config');
+                const config = await configResponse.json();
+                
+                results.innerHTML += `
+                    <div class="test-result success">
+                        ✅ Config API Working<br>
+                        Welcome Message: ${config.welcomeMessage.substring(0, 100)}...
+                    </div>
+                `;
+                
+                // Test 2: Get Q&A data
+                console.log('Testing Q&A API...');
+                const qaResponse = await fetch('http://localhost:3000/api/chatbot/qa/public');
+                const qaData = await qaResponse.json();
+                
+                results.innerHTML += `
+                    <div class="test-result success">
+                        ✅ Q&A API Working<br>
+                        Found ${qaData.length} Q&A pairs
+                    </div>
+                `;
+                
+                // Test 3: Send test messages
+                const testMessages = [
+                    'Hello',
+                    'I want to book a room',
+                    'What are your prices?',
+                    'Where are you located?',
+                    'How can I contact James?'
+                ];
+                
+                for (const message of testMessages) {
+                    console.log(`Testing message: ${message}`);
+                    const messageResponse = await fetch('http://localhost:3000/api/chatbot/message', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            sessionId: 'test_session_123',
+                            message: message,
+                            guestName: 'Test User'
+                        })
+                    });
+                    
+                    const messageResult = await messageResponse.json();
+                    
+                    results.innerHTML += `
+                        <div class="test-result success">
+                            ✅ Message: "${message}"<br>
+                            <div class="response">
+                                <strong>Bot Response:</strong><br>
+                                ${messageResult.response.message}
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                results.innerHTML += `
+                    <div class="test-result success">
+                        🎉 <strong>All Tests Passed!</strong><br>
+                        Your Evangelina's Staycation chatbot is fully functional!
+                    </div>
+                `;
+                
+            } catch (error) {
+                results.innerHTML += `
+                    <div class="test-result error">
+                        ❌ Error: ${error.message}
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

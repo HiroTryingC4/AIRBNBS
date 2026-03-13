@@ -27,6 +27,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env.production
 
 # vercel
 .vercel
@@ -34,6 +35,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# database
+/prisma/dev.db
+/prisma/dev.db-journal
+
+# deployment secrets
+.nextauth-secret.txt
 
 # Keep folder structure but ignore actual images (optional)
 # Uncomment the lines below if you don't want to commit your images to git
