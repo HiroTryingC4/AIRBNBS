@@ -55,7 +55,7 @@ export async function GET() {
     console.error('Database setup error:', error)
     return Response.json({ 
       success: false, 
-      error: error.message 
+      error: error instanceof Error ? error.message : 'Unknown error occurred'
     }, { status: 500 })
   }
 }
