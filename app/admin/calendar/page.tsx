@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { AdminLayout } from '@/components/admin'
-import CalendarManager from '@/components/admin/CalendarManager'
+import { CalendarManager } from '@/components/admin'
 
 interface Property {
   id: string
